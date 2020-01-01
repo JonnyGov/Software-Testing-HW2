@@ -17,7 +17,7 @@ public class universalScoring {
 	{
 		//@change-- added  the constructor injection
 		ConstructorInjection ci= new ConstructorInjection(); 
-		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(null); // null until we have implementing classes
+		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_normal());
 		//
 		try 
 		{
@@ -30,7 +30,7 @@ public class universalScoring {
             System.out.println("SQL connection succeed"); 
             
          //@change - original method use replaced by injection
-            int x =culFq.surveyScore("111111111","B");
+            int x =culFq.surveyScore("111111111","A");
           //
             
             System.out.println("score: "+x);
