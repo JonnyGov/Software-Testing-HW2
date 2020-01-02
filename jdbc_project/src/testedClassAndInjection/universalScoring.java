@@ -12,34 +12,19 @@ import testedClassAndInjection.ConstructorInjection.calculationsFromQuerys;
 
 public class universalScoring {
 	public static Connection conn;
+	public static calculationsFromQuerys culFq; // Instead of the mehode being static the injection  is
 
 	public static void main(String[] args)
 	{
+		//@change - moved the connection to DB in to the constructor of the Injection
 		//@change-- added  the constructor injection
 		ConstructorInjection ci= new ConstructorInjection(); 
 		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_normal()); // null until we have implementing classes
-		//
-		try 
-		{
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (Exception ex) {/* handle the error*/}
-        
-        try 
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/sakila?serverTimezone=IST","root","Aa123456");
-            System.out.println("SQL connection succeed"); 
-            
-         //@change - original method use replaced by injection
-            int x =culFq.surveyScore("111111111","A");
-          //
-            
-            System.out.println("score: "+x);
-     	} catch (SQLException ex) 
-     	    {/* handle any errors*/
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            }
+		//      
+      //@change - original method use replaced by injection
+        int x =culFq.surveyScore("111111111","B");
+      //     
+        System.out.println("score: "+x);
    	}//END of main
 	
 	/*
