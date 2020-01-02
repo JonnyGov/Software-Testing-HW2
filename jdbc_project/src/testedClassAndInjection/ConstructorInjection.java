@@ -28,27 +28,53 @@ public class calculationsFromQuerys{
 		float min=5; 
 		float max=0,avg=0;
 		float finalGrade=0;
-		//---------------------------------TODO: BE INJECTED----------------------------------------------------------------------------
+
+		//------------- new vars to help with getting the paramters out of the db
+		float[] floatArray = new float[3];
+ 		ArrayList<Object> foatArrays=new ArrayList<Object>();
+ 		//
 		try 
 		{
 			//@chaged using the static from conn universalScoring
 			stmt = universalScoring.conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE ID= \""+ ID +"\";");
-	 		while(rs.next())
-	 		{   
+
+	 		
+	 		//refactord such that data will go somewhere before calculations
+	 		
+	 		while (rs.next()) {
 	 			for (int i=1;i<4;i++)
 	 			{
-	 			avg=avg+rs.getFloat(i)/3;
-	 			};	 			 
-				grades.add(avg);
-				System.out.println("avg grade: "+avg);
-				if (avg>max) max=avg;
-	 			if (avg<min) min=avg;
-				count++;avg=0;
-			} 
+	 				floatArray[i-1]=rs.getFloat(i);
+	 			};	
+	 			foatArrays.add(floatArray);
+	 		}
+	 		
+	 		//
+	 		
+	 		
 			rs.close();			
 		} catch (SQLException e) {e.printStackTrace();}
 		
+		
+		// calculations after getiing the vars;
+		
+ 		for(Object e:foatArrays ) {
+ 			floatArray=(float[]) e;
+ 			for (int i=1;i<4;i++)
+ 			{
+ 			avg=avg+floatArray[i-1]/3;
+ 			};	 			 
+			grades.add(avg);
+			System.out.println("avg grade: "+avg);
+			if (avg>max) max=avg;
+ 			if (avg<min) min=avg;
+			count++;avg=0;
+ 			
+ 		}
+ 		
+ 		//
+		///////////////////////////////////////////////////////////////
 		interval=max-min;
 		if ((count % 2)>0)
 			{System.out.println("count: "+count);
@@ -57,9 +83,6 @@ public class calculationsFromQuerys{
 			{System.out.println("count: "+count);
 			median=(grades.get(count/2-1)+grades.get(count/2))/2;}	
 		 System.out.println("interval: "+interval);
-			//----------------------------------------------------------------------------------------------------------------------
-
-		 
 		 /*********************************** TODO: be injected ***********************************************************************************/
 		try 
 		{	//@chaged using the static from conn universalScoring

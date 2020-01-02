@@ -30,7 +30,7 @@ public class universalScoring {
             System.out.println("SQL connection succeed"); 
             
          //@change - original method use replaced by injection
-            int x =culFq.surveyScore("111111111","B");
+            int x =culFq.surveyScore("111111111","A");
           //
             
             System.out.println("score: "+x);
