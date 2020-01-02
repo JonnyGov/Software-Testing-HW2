@@ -19,7 +19,6 @@ public class calculationsFromQuerys{
 	
 	//@changed to non static so injection will work properly -TODO:  how do we keep it? - static injection that will have the  sql one until constracro comes and replaces it ?
 	public  int surveyScore(String ID, String surveyType)
-	
 	{	float median=0;
 		float interval=0;
 		float factor=0;
@@ -29,16 +28,26 @@ public class calculationsFromQuerys{
 		float min=5; 
 		float max=0,avg=0;
 		float finalGrade=0;
-		//@change - getting what the injection did
-		Object[] toReturn=new Object[4];
-		
-		// first injection
-		toReturn=injection.v1v3v4Dealings(ID);	
-		count=(int) toReturn[0];
-		max=(float) toReturn[1];
-		min=(float) toReturn[2];
-		grades=(ArrayList<Float>) toReturn[3];
-		// note - trying to live as match of the original as possible
+		//---------------------------------TODO: BE INJECTED----------------------------------------------------------------------------
+		try 
+		{
+			//@chaged using the static from conn universalScoring
+			stmt = universalScoring.conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE ID= \""+ ID +"\";");
+	 		while(rs.next())
+	 		{   
+	 			for (int i=1;i<4;i++)
+	 			{
+	 			avg=avg+rs.getFloat(i)/3;
+	 			};	 			 
+				grades.add(avg);
+				System.out.println("avg grade: "+avg);
+				if (avg>max) max=avg;
+	 			if (avg<min) min=avg;
+				count++;avg=0;
+			} 
+			rs.close();			
+		} catch (SQLException e) {e.printStackTrace();}
 		
 		interval=max-min;
 		if ((count % 2)>0)
@@ -48,10 +57,20 @@ public class calculationsFromQuerys{
 			{System.out.println("count: "+count);
 			median=(grades.get(count/2-1)+grades.get(count/2))/2;}	
 		 System.out.println("interval: "+interval);
+			//----------------------------------------------------------------------------------------------------------------------
 
-		 //Second injection
-		 finalGrade=injection.f1f2Dealings(interval , median,  surveyType);
-		 //
+		 
+		 /*********************************** TODO: be injected ***********************************************************************************/
+		try 
+		{	//@chaged using the static from conn universalScoring
+			stmt = universalScoring.conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT settings.f1,settings.f2 FROM sakila.settings  WHERE settings.type = \""+ surveyType +"\";");
+	 		rs.next();
+	 		finalGrade=(float)rs.getInt(1)*median+interval/2+(float)rs.getInt(2);	
+	 		rs.close();			
+		} catch (SQLException e) {e.printStackTrace();}
+		 /**********************************************************************************************************************/
+
 		return (int)finalGrade;}
 		
 	
