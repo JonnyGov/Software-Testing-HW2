@@ -17,7 +17,7 @@ public class universalScoring {
 	{
 		//@change-- added  the constructor injection
 		ConstructorInjection ci= new ConstructorInjection(); 
-		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(null); // null until we have implementing classes
+		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_normal()); // null until we have implementing classes
 		//
 		try 
 		{

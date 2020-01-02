@@ -33,6 +33,8 @@ public class calculationsFromQuerys{
 		float[] floatArray = new float[3];
  		ArrayList<Object> foatArrays=new ArrayList<Object>();
  		//
+ 		
+ 		/*
 		try 
 		{
 			//@chaged using the static from conn universalScoring
@@ -48,14 +50,14 @@ public class calculationsFromQuerys{
 	 				floatArray[i-1]=rs.getFloat(i);
 	 			};	
 	 			foatArrays.add(floatArray);
-	 		}
-	 		
-	 		//
-	 		
-	 		
+	 		}	
 			rs.close();			
 		} catch (SQLException e) {e.printStackTrace();}
-		
+		*/
+ 		
+ 		//injection
+ 		foatArrays=injection.v1v3v4Dealings(min, ID);
+ 		
 		
 		// calculations after getiing the vars;
 		
@@ -72,9 +74,6 @@ public class calculationsFromQuerys{
 			count++;avg=0;
  			
  		}
- 		
- 		//
-		///////////////////////////////////////////////////////////////
 		interval=max-min;
 		if ((count % 2)>0)
 			{System.out.println("count: "+count);
@@ -83,17 +82,22 @@ public class calculationsFromQuerys{
 			{System.out.println("count: "+count);
 			median=(grades.get(count/2-1)+grades.get(count/2))/2;}	
 		 System.out.println("interval: "+interval);
-		 /*********************************** TODO: be injected ***********************************************************************************/
+		//------------- new vars to help with getting the paramters out of the db
+		 int f1=0;
+		 int f2=0;
 		try 
 		{	//@chaged using the static from conn universalScoring
 			stmt = universalScoring.conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT settings.f1,settings.f2 FROM sakila.settings  WHERE settings.type = \""+ surveyType +"\";");
 	 		rs.next();
-	 		finalGrade=(float)rs.getInt(1)*median+interval/2+(float)rs.getInt(2);	
+	 		//refactord such that data will go somewhere before calculations
+	 		 f1=rs.getInt(1);
+	 		 f2 =rs.getInt(2);	
+	 		//
 	 		rs.close();			
 		} catch (SQLException e) {e.printStackTrace();}
-		 /**********************************************************************************************************************/
-
+		//removed the calculation from the try catch to remove dependency
+		finalGrade=(float)f1*median+interval/2+(float)f2;	
 		return (int)finalGrade;}
 		
 	
