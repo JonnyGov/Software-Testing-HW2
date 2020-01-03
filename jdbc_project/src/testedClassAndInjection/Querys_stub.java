@@ -10,13 +10,15 @@ public class Querys_stub implements Querys_interface {
 	 private	int[] Bf1f2 =null;
 	 private    String[] keysID =null;
 	 private   	boolean  isThereKeyssurveyType;
+	 private 	boolean  connIsnull;
 
-	 public Querys_stub(ArrayList<Object> arrayListV1V3V4 ,int[] Af1f2,int[] Bf1f2,String[] keysID,	boolean  isThereKeyssurveyType) {
+	 public Querys_stub(ArrayList<Object> arrayListV1V3V4 ,int[] Af1f2,int[] Bf1f2,String[] keysID,	boolean  isThereKeyssurveyType, boolean connIsnull) {
 		 this.arrayListV1V3V4= arrayListV1V3V4;
 		 this.Af1f2 =Af1f2;
 		 this.Bf1f2 =Bf1f2;
 		 this.keysID = keysID;
 		 this.isThereKeyssurveyType =isThereKeyssurveyType;
+		 this.connIsnull =connIsnull;
 	 }
 	
 	// If a null is sent then the data will be used like in DB
@@ -24,7 +26,9 @@ public class Querys_stub implements Querys_interface {
 	public ArrayList<Object> v1v3v4Dealings(float min, String ID) {
 			int flag=0;
 		try {
-			
+			// using conn without testing conn or setting it up
+			if(connIsnull==true) throw   new NullPointerException("conn is null");
+
 			if(keysID==null) {			// if  did not send keys in DB then test against what was in the exemple DB
 			if (!ID.equals("111111111"))
 				throw new SQLException("no such ID \n");
@@ -65,6 +69,8 @@ public class Querys_stub implements Querys_interface {
 
 		int[] f1f2 = new int[2];
 		try {
+			// using conn without testing conn or setting it up
+			if(connIsnull==true) throw   new NullPointerException("conn is null");
 			if(isThereKeyssurveyType==false ||((!surveyType.equals("A"))&&(!surveyType.equals("B")))) throw new SQLException("no sucsh surveyType\n");
 		
 		if(surveyType.equals("A") && Af1f2!=null ) {
