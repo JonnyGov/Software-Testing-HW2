@@ -19,10 +19,10 @@ public class universalScoring {
 		//@change - moved the connection to DB in to the constructor of the Injection
 		//@change-- added  the constructor injection
 		ConstructorInjection ci= new ConstructorInjection(); 
-		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_normal()); // null until we have implementing classes
+		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_normal());
 		//      
       //@change - original method use replaced by injection
-        int x =culFq.surveyScore("111111111","B");
+        int x =culFq.surveyScore("111111111","A");
       //     
         System.out.println("score: "+x);
    	}//END of main
