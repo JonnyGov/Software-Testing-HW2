@@ -19,7 +19,7 @@ public class universalScoring {
 		//@change - moved the connection to DB in to the constructor of the Injection
 		//@change-- added  the constructor injection
 		ConstructorInjection ci= new ConstructorInjection(); 
-		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_stub(null,null,null,null,true));
+		calculationsFromQuerys culFq= ci.new calculationsFromQuerys(new Querys_stub(null,null,null,null,true,false));
 		//      
       //@change - original method use replaced by injection
         int x =culFq.surveyScore("111111111","A");
