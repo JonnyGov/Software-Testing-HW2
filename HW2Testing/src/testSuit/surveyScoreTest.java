@@ -1,5 +1,6 @@
 package testSuit;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
@@ -133,13 +134,71 @@ class surveyScoreTest {
 		assertEquals(MockSurveyScore.finalGrade, excepted * 0 + 1);
 	}
 	
-	
-	
+
 	
 	
 	
 	
 	
 	// yonathan
+	
+	
+	@Test
+	void testMinosV1() {
+		surveyTable.add(dataBase.new survey(1, -5, 2, 3, 4));
+		settingsTable.add(dataBase.new settings("A", 1, 1));
+		MockSurveyScore.surveyScore("1", "A");
+		assertEquals(MockSurveyScore.count, 1);
+		float testAvg = MockSurveyScore.avgForEachRow.get(0);
+		float excepted = (float) (-5 + 3 + 4) / 3;
+		assertTrue(comperFloats(testAvg,excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
+	}
+	@Test
+	void testF1is1F2is0() {
+		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
+		settingsTable.add(dataBase.new settings("A", 1, 0));
+		MockSurveyScore.surveyScore("1", "A");
+		assertEquals(MockSurveyScore.count, 1);
+		float testAvg = MockSurveyScore.avgForEachRow.get(0);
+		float excepted = (float) (1 + 3 + 4) / 3;	
+		assertTrue(comperFloats(testAvg,excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 0));
+	}
+	
+	@Test
+	void testV1V2V3arezero() {
+		surveyTable.add(dataBase.new survey(1, 0, 2, 0, 0));
+		settingsTable.add(dataBase.new settings("A", 1, 0));
+		MockSurveyScore.surveyScore("1", "A");
+		assertEquals(MockSurveyScore.count, 1);
+		float testAvg = MockSurveyScore.avgForEachRow.get(0);
+		float excepted = (float) 0;	
+		assertTrue(comperFloats(testAvg,excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
+	}
+	
+	@Test
+	void testV1V2V3areNegative() {
+		surveyTable.add(dataBase.new survey(1, -3, 2, -4, -9));
+		settingsTable.add(dataBase.new settings("A", 1, 1));
+		MockSurveyScore.surveyScore("1", "A");
+		assertEquals(MockSurveyScore.count, 1);
+		float testAvg = MockSurveyScore.avgForEachRow.get(0);
+		float excepted = (float) (-3 + -4 + -9) / 3;	
+		assertTrue(comperFloats(testAvg,excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
+	}
+	
 
+private boolean comperFloats(float f1,float f2) {
+	float epsilon =(float) 0.0001;
+	if(Math.abs(f1-f2)<epsilon) return true;
+	else return false;
 }
+
+}//END of surveyScoreTest class

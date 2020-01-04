@@ -3,6 +3,10 @@ package MockInjecton;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * a full on replacement for SurveyScore ,  giving the ability to test internal components 
+ *
+ */
 public class MockSurveyScore {
 	private static DriverManagerService driverManagerService;
 
@@ -38,7 +42,7 @@ public class MockSurveyScore {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
-
+// all method variables are static so that they code be tested while running 
 	public static float median = 0;
 	public static float interval = 0;
 	public static float factor = 0;
