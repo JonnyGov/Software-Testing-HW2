@@ -57,7 +57,7 @@ class surveyScoreTest {
      
 	
 	//ofek
-	
+	//assertTrue(comperFloats));
 	
 	@Test
 	void testTwoDiffrentID() {
@@ -65,18 +65,18 @@ class surveyScoreTest {
 		surveyTable.add(dataBase.new survey(2, 3, 1, 1, 2));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
 		MockSurveyScore.surveyScore("1", "A");
-		assertEquals(MockSurveyScore.count, 1);
+		assertTrue(comperFloats(MockSurveyScore.count, 1));
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
 		float excepted = (float) (1 + 3 + 4) / 3;
-		assertEquals(testAvg, excepted);
-		assertEquals(MockSurveyScore.median, excepted);
-		assertEquals(MockSurveyScore.finalGrade, excepted * 0 + 1);
+		assertTrue(comperFloats(testAvg, excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 0 + 1));
 		MockSurveyScore.surveyScore("2", "A");
 		testAvg = MockSurveyScore.avgForEachRow.get(0);
 		excepted = (float) (3 + 2 + 1) / 3;
-		assertEquals(testAvg, excepted);
-		assertEquals(MockSurveyScore.median, excepted);
-		assertEquals(MockSurveyScore.finalGrade, excepted * 0 + 1);
+		assertTrue(comperFloats(testAvg, excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 0 + 1));
 	}
 
 	@Test
@@ -86,19 +86,19 @@ class surveyScoreTest {
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
 		MockSurveyScore.surveyScore("1", "A");
-		assertEquals(MockSurveyScore.count, 3);
+		assertTrue(comperFloats(MockSurveyScore.count, 3));
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
 		float excepted = (float) (2 + 2 + 2) / 3;
 		float exceptedMeidan = excepted;
-		assertEquals(testAvg, excepted);
+		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(1);
 		excepted = (float) (3 + 3 + 3) / 3;
-		assertEquals(testAvg, excepted);
+		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(2);
 		excepted = (float) (1 + 1 + 1) / 3;
-		assertEquals(testAvg, excepted);
-		assertEquals(MockSurveyScore.median, exceptedMeidan);
-		assertEquals(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1);
+		assertTrue(comperFloats(testAvg, excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
 	}
 	@Test
 	void testMultiSurveysSort() {
@@ -107,31 +107,31 @@ class surveyScoreTest {
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
 		MockSurveyScore.surveyScore("1", "A");
-		assertEquals(MockSurveyScore.count, 3);
+		assertTrue(comperFloats(MockSurveyScore.count, 3));
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
 		float excepted = (float) (2 + 2 + 2) / 3;
 		float exceptedMeidan = excepted;
-		assertEquals(testAvg, excepted);
+		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(1);
 		excepted = (float) (3 + 3 + 3) / 3;
-		assertEquals(testAvg, excepted);
+		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(2);
 		excepted = (float) (1 + 1 + 1) / 3;
-		assertEquals(testAvg, excepted);
-		assertEquals(MockSurveyScore.median, exceptedMeidan);
-		assertEquals(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1);
+		assertTrue(comperFloats(testAvg, excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
 	}
 	@Test
 	void testF1is0F2is1() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		MockSurveyScore.surveyScore("1", "A");
-		assertEquals(MockSurveyScore.count, 1);
+		assertTrue(comperFloats(MockSurveyScore.count, 1));
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
 		float excepted = (float) (1 + 3 + 4) / 3;
-		assertEquals(testAvg, excepted);
-		assertEquals(MockSurveyScore.median, excepted);
-		assertEquals(MockSurveyScore.finalGrade, excepted * 0 + 1);
+		assertTrue(comperFloats(testAvg, excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 0 + 1));
 	}
 	
 
@@ -143,18 +143,7 @@ class surveyScoreTest {
 	// yonathan
 	
 	
-	@Test
-	void testMinosV1() {
-		surveyTable.add(dataBase.new survey(1, -5, 2, 3, 4));
-		settingsTable.add(dataBase.new settings("A", 1, 1));
-		MockSurveyScore.surveyScore("1", "A");
-		assertEquals(MockSurveyScore.count, 1);
-		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (-5 + 3 + 4) / 3;
-		assertTrue(comperFloats(testAvg,excepted));
-		assertTrue(comperFloats(MockSurveyScore.median, excepted));
-		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
-	}
+
 	@Test
 	void testF1is1F2is0() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -169,30 +158,47 @@ class surveyScoreTest {
 	}
 	
 	@Test
-	void testV1V2V3arezero() {
-		surveyTable.add(dataBase.new survey(1, 0, 2, 0, 0));
-		settingsTable.add(dataBase.new settings("A", 1, 0));
+	void testF1isNegativeF2isNot() {
+		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
+		settingsTable.add(dataBase.new settings("A", -5, 1));
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) 0;	
+		float excepted = (float) (1 + 3 + 4) / 3;	
 		assertTrue(comperFloats(testAvg,excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
-		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * -5 + 1));
 	}
 	
 	@Test
-	void testV1V2V3areNegative() {
-		surveyTable.add(dataBase.new survey(1, -3, 2, -4, -9));
-		settingsTable.add(dataBase.new settings("A", 1, 1));
+	void testF1isNotNegativeF2is() {
+		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
+		settingsTable.add(dataBase.new settings("A", 1, -5));
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (-3 + -4 + -9) / 3;	
+		float excepted = (float) (1 + 3 + 4) / 3;	
 		assertTrue(comperFloats(testAvg,excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
-		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 1));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted *1 + -5));
 	}
+	
+	@Test
+	void testF1F2AreNegative() {
+		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
+		settingsTable.add(dataBase.new settings("A", -1, -5));
+		MockSurveyScore.surveyScore("1", "A");
+		assertEquals(MockSurveyScore.count, 1);
+		float testAvg = MockSurveyScore.avgForEachRow.get(0);
+		float excepted = (float) (1 + 3 + 4) / 3;	
+		assertTrue(comperFloats(testAvg,excepted));
+		assertTrue(comperFloats(MockSurveyScore.median, excepted));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * -1 + -5));
+	}
+	
+	
+	
+	
 	
 
 private boolean comperFloats(float f1,float f2) {
