@@ -6,14 +6,37 @@ import java.util.ArrayList;
 
 public class MockConnection implements ConnectionService{
 	
+	
+	/**itch entity of class implementing rowInDatabase is a row in a table in the DB , meaning holding more then one of those is a table
+	 * 
+	 *
+	 */
 	public interface rowInDatabase{
+		/** returns the value in  column i of this row
+		 * @param i
+		 * @return
+		 */
 		public String getRow(int i);
+		/** returning row key
+		 * @return
+		 */
 		public String getWhere();
 	}
+	
+	/**a settings table  row
+	 * @author Yonathan
+	 *
+	 */
 	public class settings implements rowInDatabase{
 		String type;
 		int f1;
 		int f2;
+		
+		/**  Constructor =adding row values - f1,f2
+		 * @param type
+		 * @param f1
+		 * @param f2
+		 */
 		public settings(String type, int f1, int f2) {
 			this.type = type;
 			this.f1 = f1;
@@ -27,17 +50,33 @@ public class MockConnection implements ConnectionService{
 			default : return null;
 			}
 		}
+		/** returning row key = type (A or B in original tables)
+		 *
+		 */
 		@Override
 		public String getWhere() {
 			return type;
 		}
-	}
+	} // END of settings class
+	
+	/**
+	 * a survey table  row
+	 *
+	 */
 	public class survey  implements rowInDatabase{
 		int id;
 		int v1;
 		int v2;
 		int v3;
 		int v4;
+		 
+		/**Constructor =adding row values v1,v2,v3,v4 
+		 * @param id
+		 * @param v1
+		 * @param v2
+		 * @param v3
+		 * @param v4
+		 */
 		public survey(int id, int v1, int v2, int v3, int v4) {
 			this.id = id;
 			this.v1 = v1;
@@ -45,6 +84,7 @@ public class MockConnection implements ConnectionService{
 			this.v3 = v3;
 			this.v4 = v4;
 		}
+	
 		@Override
 		public String getRow(int i) { // get just v1 v3 v4 like the request.
 			switch (i) {
@@ -54,19 +94,31 @@ public class MockConnection implements ConnectionService{
 			default : return null;
 			}
 		}
+		/**returning row key = request id
+		 *
+		 */
 		@Override
 		public String getWhere() {
 			return String.valueOf(id);
 		}
 		
-	}
+	} // END of survey class
 	
 	public  ArrayList <survey> surveyTable=null;
 	public  ArrayList <settings> settingsTable=null;
+	
+	/** Constructor - making our fake DB by receiving ready tables of settings and survey = 
+	 * @param surveyTable
+	 * @param settingsTable
+	 */
 	public MockConnection(ArrayList<survey> surveyTable, ArrayList<settings> settingsTable) {
 		this.surveyTable = surveyTable;
 		this.settingsTable = settingsTable;
 	}
+	/** creates a StatmentService to work with our fake DB
+	 * 
+	 *
+	 */
 	@Override
 	public StatmentService createStatement() throws SQLException {
 		return new MockStatment(this);

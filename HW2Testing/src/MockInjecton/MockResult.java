@@ -9,11 +9,17 @@ public class MockResult implements ResultService{
 	private int index=0;
 	private ArrayList <? extends rowInDatabase> table;
 	
+	/** Constructor 
+	 * @param table - the array list withch holds rows 
+	 * @param where - the key 
+	 */
 	public MockResult(ArrayList<? extends rowInDatabase> table, String where) {
 		this.table=table;
-		this.where=where;
-		
+		this.where=where;		
 	}
+	/**  Going throw the rows of the table 
+	 *
+	 */
 	@Override
 	public boolean next() {
 		try {
@@ -23,6 +29,9 @@ public class MockResult implements ResultService{
 			return false;
 		}
 	}
+	/** getting the float argument from the table
+	 *
+	 */
 	@Override
 	public float getFloat(int i) throws SQLException {
 		String toReturn=table.get(index-1).getRow(i);
@@ -34,6 +43,9 @@ public class MockResult implements ResultService{
 		// TODO Auto-generated method stub
 		
 	}
+	/**getting the float argument from the table
+	 *
+	 */
 	@Override
 	public int getInt(int i) throws SQLException {
 		String toReturn=table.get(index-1).getRow(i);

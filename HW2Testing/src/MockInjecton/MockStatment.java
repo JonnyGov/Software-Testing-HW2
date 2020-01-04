@@ -8,13 +8,22 @@ import MockInjecton.MockConnection.settings;
 import MockInjecton.MockConnection.survey;
 
 public class MockStatment implements StatmentService {
+
 	private MockConnection mockConnection;
+	
+	/** Constructor 
+	 * @param mockConnection - the fake DB 
+	 */
 	public MockStatment(MockConnection mockConnection) {
 		this.mockConnection=mockConnection;
 	}
+	/** executes real querys on the fake table
+	 * @param str - the query to be executed
+	 */
 	public MockResult executeQuery(String str) {
 		ArrayList <? extends rowInDatabase> table = null;
 		String where=null;
+		// query for the survey table
 		if(str.contains("sakila.survey")) {
 			ArrayList <survey> surveyTable=new ArrayList <survey>();
 			String newStr[]=str.split("ID=");
@@ -25,6 +34,7 @@ public class MockStatment implements StatmentService {
 					surveyTable.add(row);
 			}
 			table=surveyTable;
+		// query for the settings table
 		}else if (str.contains("sakila.settings")) {
 			ArrayList <settings> surveyTable=new ArrayList <settings>();
 			String newStr[]=str.split("=");
@@ -36,7 +46,6 @@ public class MockStatment implements StatmentService {
 			}
 			table=surveyTable;
 		}
-		
 		return new MockResult(table,where);
 	}
 	

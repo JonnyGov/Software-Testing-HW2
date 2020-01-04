@@ -12,7 +12,7 @@ public class universalScoring {
 	//start added
 	private static DriverManagerService driverManagerService;
 	
-	
+	// the constructor injection
 	public universalScoring(DriverManagerService driverManagerService) throws SQLException { 
 		if (driverManagerService==null) this.driverManagerService=new RealDriverManger();
 		else {
