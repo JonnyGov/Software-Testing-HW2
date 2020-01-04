@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class universalScoring {
-	
+	//start added
 	private static DriverManagerService driverManagerService;
 	
 	
@@ -17,13 +17,14 @@ public class universalScoring {
 		if (driverManagerService==null) this.driverManagerService=new RealDriverManger();
 		else {
 		this.driverManagerService = driverManagerService;
-			conn=driverManagerService.getConnection(null,null,null);
+			conn=driverManagerService.getConnection(null,null,null); // when test the surveyScore function 
 		
 		}
 		
 	
 	}	
-
+	//finish added
+	
 	//public static Connection conn;
 	public static ConnectionService conn; // @@change
 	
@@ -36,7 +37,7 @@ public class universalScoring {
         
         try 
         {
-        	conn = driverManagerService.getConnection("jdbc:mysql://localhost/sakila?serverTimezone=IST","root","Aa123456");
+        	conn = driverManagerService.getConnection("jdbc:mysql://localhost/sakila?serverTimezone=IST","root","Aa123456"); //@change
             System.out.println("SQL connection succeed"); 
             int x=surveyScore("111111111","A");
             System.out.println("score: "+x);

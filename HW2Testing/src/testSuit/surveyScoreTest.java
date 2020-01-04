@@ -53,7 +53,11 @@ class surveyScoreTest {
 		surveyTable.clear();
 		settingsTable.clear();
 	}
-
+     
+	
+	//ofek
+	
+	
 	@Test
 	void testTwoDiffrentID() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -128,5 +132,14 @@ class surveyScoreTest {
 		assertEquals(MockSurveyScore.median, excepted);
 		assertEquals(MockSurveyScore.finalGrade, excepted * 0 + 1);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	// yonathan
 
 }
