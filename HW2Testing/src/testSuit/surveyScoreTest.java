@@ -20,12 +20,11 @@ import MockInjecton.MockConnection.survey;
 
 /**
  * 
- * Test for calculate final grade for surveys 
- * using student's list of grades that each have 3 grades (v1,v3,v4), and
- * settings (f1 , f2)
- *<p>
- *<b>Formula:</b> <br>
- *	(<b>Median</b>{<b>List</b>[<b>Average</b>(v1,v3,v4)]} ) *f1 +f2 
+ * Test for calculate final grade for surveys using student's list of grades
+ * that each have 3 grades (v1,v3,v4), and settings (f1 , f2)
+ * <p>
+ * <b>Formula:</b> <br>
+ * (<b>Median</b>{<b>List</b>[<b>Average</b>(v1,v3,v4)]} ) *f1 +f2
  *
  * @author Ofek and Yonathan
  *
@@ -39,9 +38,9 @@ class surveyScoreTest {
 	private static MockSurveyScore mockSurveyScore;
 
 	/**
-	 * Before doing test: initialize and set unreal database and sql.
-	 * <br>
-	 * Initialize and set new unreal tables for settings and survey like in the real database. 
+	 * Before doing test: initialize and set unreal database and sql. <br>
+	 * Initialize and set new unreal tables for settings and survey like in the real
+	 * database.
 	 */
 	@BeforeAll
 	public static void initialize() {
@@ -76,11 +75,10 @@ class surveyScoreTest {
 		surveyTable.clear();
 		settingsTable.clear();
 	}
-     
-	
-	//ofek
-	//assertTrue(comperFloats));
-	
+
+	// ofek
+	// assertTrue(comperFloats));
+
 	/**
 	 * Insert in database for table survey two different id.
 	 */
@@ -105,8 +103,8 @@ class surveyScoreTest {
 	}
 
 	/**
-	 * It is for test how the median is calculate (when the survey average unsorted) and if it is good
-	 * test the final grade. 
+	 * It is for test how the median is calculate (when the survey average unsorted)
+	 * and if it is good test the final grade.
 	 */
 	@Test
 	void testMultiSurveysUnSort() {
@@ -129,9 +127,10 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan)); // test median.
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1)); // test final grade.
 	}
+
 	/**
-	 *It is for test how the median is calculate (when the survey average sorted) and if it is good
-	 * test the final grade. 
+	 * It is for test how the median is calculate (when the survey average sorted)
+	 * and if it is good test the final grade.
 	 */
 	@Test
 	void testMultiSurveysSort() {
@@ -154,6 +153,7 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
 	}
+
 	@Test
 	void testF1is0F2is1() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -166,49 +166,62 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 0 + 1));
 	}
+
+	/**
+	 * Test when get negative values in survey grades. <br>
+	 * Grades should be integer from 1 to 5
+	 */
 	@Test
-	void testV1Negative() {
+	void testV1orV2orV3Negative() {
 		surveyTable.add(dataBase.new survey(1, -1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
-		MockSurveyScore.surveyScore("1", "A");
-		fail();
-		}catch (IllegalArgumentException e) {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
 		}
-		
+		surveyTable.set(0, dataBase.new survey(1, 1, 2, -3, 4));
+		try {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
+		}
+		surveyTable.set(0,dataBase.new survey(1, 1, 2, 3, -4));
+		try {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
+		}
 	}
+	/**
+	 * Test when get zero values in survey grades. <br>
+	 * Grades should be integer from 1 to 5
+	 */
 	@Test
-	void testV3Negative() {
-		surveyTable.add(dataBase.new survey(1, 1, 2, -3, 4));
+	void testV1orV2orV3zero() {
+		surveyTable.add(dataBase.new survey(1, 0, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
-		MockSurveyScore.surveyScore("1", "A");
-		fail();
-		}catch (IllegalArgumentException e) {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
 		}
-		
-	}
-	@Test
-	void testV4Negative() {
-		surveyTable.add(dataBase.new survey(1, 1, 2, 3, -4));
-		settingsTable.add(dataBase.new settings("A", 1, 1));
+		surveyTable.set(0, dataBase.new survey(1, 1, 2, 0, 4));
 		try {
-		MockSurveyScore.surveyScore("1", "A");
-		fail();
-		}catch (IllegalArgumentException e) {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
 		}
-		
+		surveyTable.set(0,dataBase.new survey(1, 1, 2, 3, 0));
+		try {
+			MockSurveyScore.surveyScore("1", "A");
+			fail();
+		} catch (IllegalArgumentException e) {
+		}
 	}
 	
 
-	
-	
-	
-	
-	
 	// yonathan
-	
-	
 
 	@Test
 	void testF1is1F2is0() {
@@ -217,12 +230,12 @@ class surveyScoreTest {
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (1 + 3 + 4) / 3;	
-		assertTrue(comperFloats(testAvg,excepted));
+		float excepted = (float) (1 + 3 + 4) / 3;
+		assertTrue(comperFloats(testAvg, excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + 0));
 	}
-	
+
 	@Test
 	void testF1isNegativeF2isNot() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -230,12 +243,12 @@ class surveyScoreTest {
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (1 + 3 + 4) / 3;	
-		assertTrue(comperFloats(testAvg,excepted));
+		float excepted = (float) (1 + 3 + 4) / 3;
+		assertTrue(comperFloats(testAvg, excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * -5 + 1));
 	}
-	
+
 	@Test
 	void testF1isNotNegativeF2is() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -243,12 +256,12 @@ class surveyScoreTest {
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (1 + 3 + 4) / 3;	
-		assertTrue(comperFloats(testAvg,excepted));
+		float excepted = (float) (1 + 3 + 4) / 3;
+		assertTrue(comperFloats(testAvg, excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
-		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted *1 + -5));
+		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * 1 + -5));
 	}
-	
+
 	@Test
 	void testF1F2AreNegative() {
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
@@ -256,21 +269,18 @@ class surveyScoreTest {
 		MockSurveyScore.surveyScore("1", "A");
 		assertEquals(MockSurveyScore.count, 1);
 		float testAvg = MockSurveyScore.avgForEachRow.get(0);
-		float excepted = (float) (1 + 3 + 4) / 3;	
-		assertTrue(comperFloats(testAvg,excepted));
+		float excepted = (float) (1 + 3 + 4) / 3;
+		assertTrue(comperFloats(testAvg, excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, excepted));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * -1 + -5));
 	}
-	
-	
-	
-	
-	
 
-private boolean comperFloats(float f1,float f2) {
-	float epsilon =(float) 0.0001;
-	if(Math.abs(f1-f2)<epsilon) return true;
-	else return false;
-}
+	private boolean comperFloats(float f1, float f2) {
+		float epsilon = (float) 0.0001;
+		if (Math.abs(f1 - f2) < epsilon)
+			return true;
+		else
+			return false;
+	}
 
-}//END of surveyScoreTest class
+}// END of surveyScoreTest class

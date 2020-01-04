@@ -7,14 +7,19 @@ import java.util.ArrayList;
 public class MockConnection implements ConnectionService{
 	
 	
-	/**itch entity of class implementing rowInDatabase is a row in a table in the DB , meaning holding more then one of those is a table
-	 * 
-	 *
+	/**<b>each entity of class implementing:</b>
+	 * <p> 
+	 * <b>rowInDatabase</b>- row in a table of DB , 
+	 * meaning holding more then one of those is a table.
+	 * @see
+	 * {@link settings} ,
+	 * {@link survey}
 	 */
 	public interface rowInDatabase{
+		
 		/** returns the value in  column i of this row
-		 * @param i
-		 * @return
+		 * @param i - the column number(index)
+		 * @return value from specific cell. 
 		 */
 		public String getRow(int i);
 		/** returning row key
@@ -23,9 +28,11 @@ public class MockConnection implements ConnectionService{
 		public String getWhere();
 	}
 	
-	/**a settings table  row
-	 * @author Yonathan
-	 *
+	/**a row in settings table.
+	 * <br>
+	 * <b>Implements:</b> rowInDatabase Interface
+	 * @author Ofek and Yonathan
+	 *  @see  {@link rowInDatabase} 
 	 */
 	public class settings implements rowInDatabase{
 		String type;
@@ -33,7 +40,7 @@ public class MockConnection implements ConnectionService{
 		int f2;
 		
 		/**  Constructor =adding row values - f1,f2
-		 * @param type
+		 * @param type - usually A/B (in DB)
 		 * @param f1
 		 * @param f2
 		 */
@@ -58,10 +65,11 @@ public class MockConnection implements ConnectionService{
 			return type;
 		}
 	} // END of settings class
-	
-	/**
-	 * a survey table  row
-	 *
+	/**a row in survey table .
+	 * <br>
+	 * <b>Implements:</b> rowInDatabase Interface
+	 * @author Ofek and Yonathan
+	 *  @see  {@link rowInDatabase} 
 	 */
 	public class survey  implements rowInDatabase{
 		int id;
@@ -71,9 +79,9 @@ public class MockConnection implements ConnectionService{
 		int v4;
 		 
 		/**Constructor =adding row values v1,v2,v3,v4 
-		 * @param id
+		 * @param id - id of student
 		 * @param v1
-		 * @param v2
+		 * @param v2 - unused value (like in the HomeWork )
 		 * @param v3
 		 * @param v4
 		 */
