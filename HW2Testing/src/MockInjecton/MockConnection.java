@@ -46,11 +46,11 @@ public class MockConnection implements ConnectionService{
 			this.v4 = v4;
 		}
 		@Override
-		public String getRow(int i) {
+		public String getRow(int i) { // get just v1 v3 v4 like the request.
 			switch (i) {
 			case 1: return  String.valueOf(v1);
-			case 2: return String.valueOf(v2);
-			case 3: return String.valueOf(v3);
+			case 2: return String.valueOf(v3);
+			case 3: return String.valueOf(v4);
 			default : return null;
 			}
 		}

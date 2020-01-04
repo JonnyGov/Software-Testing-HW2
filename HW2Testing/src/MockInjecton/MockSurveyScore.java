@@ -45,13 +45,15 @@ public class MockSurveyScore {
 	public static int count = 0;
 	public static float min = 5;
 	public static float max = 0, avg = 0;
+	public static ArrayList<Float> avgForEachRow=new ArrayList<Float>();
 	public static float finalGrade = 0;
 
 	public static int surveyScore(String ID, String surveyType) {
+		avgForEachRow.clear(); //@@added: clear for the next test.
 		 median = 0;
 		 interval = 0;
 		 factor = 0;
-		// Statement stmt;
+		// Statement stmt; // @@removed
 		StatmentService stmt; // @@change
 		ArrayList<Float> grades = new ArrayList();
 		 count = 0;
@@ -62,8 +64,8 @@ public class MockSurveyScore {
 		try {
 			stmt = conn.createStatement();
 			// ResultSet rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE
-			// ID= \""+ ID +"\";");
-			// @@change
+			// ID= \""+ ID +"\";"); // @@removed
+			// @@change:
 			ResultService rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE ID= \"" + ID + "\";");
 			while (rs.next()) {
 				for (int i = 1; i < 4; i++) {
@@ -77,6 +79,7 @@ public class MockSurveyScore {
 				if (avg < min)
 					min = avg;
 				count++;
+				avgForEachRow.add(avg);//@@ added for testing.
 				avg = 0;
 			}
 			rs.close();
