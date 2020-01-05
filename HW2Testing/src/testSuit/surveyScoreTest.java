@@ -47,14 +47,12 @@ class surveyScoreTest {
 	public static void initialize() {
 		surveyTable = new ArrayList<survey>();
 		settingsTable = new ArrayList<settings>();
-		
+
 		// this is for use without mock survey score:
 		/*
 		 * try { testClass=new universalScoring(sql); } catch (SQLException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-
-		
 
 	}
 
@@ -70,31 +68,31 @@ class surveyScoreTest {
 		dataBase = new MockConnection(surveyTable, settingsTable, sql);
 		sql = new MockDriverConnection(dataBase, false);
 		// this is for use with mock survey score:
-				try {
-					 mockSurveyScore = new MockSurveyScore(sql);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println("--------------Testing...-----------------");
-				System.out.println();
+		try {
+			mockSurveyScore = new MockSurveyScore(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("--------------Testing...-----------------");
+
 	}
+
 	@AfterEach
 	public void endTest() {
 		System.out.println("--------------end-----------------");
-		System.out.println();
+
 	}
 
 	// ofek
 
 	/**
-	 * Insert in database for table survey two different id.
-	 * Calculate final grade for each.
+	 * Insert in database for table survey two different id. Calculate final grade
+	 * for each.
 	 */
 	@Test
 	void testTwoDiffrentID() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		surveyTable.add(dataBase.new survey(2, 3, 1, 1, 2));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
@@ -119,8 +117,7 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testMultiSurveysUnSort() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
@@ -147,8 +144,7 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testMultiSurveysSortAndOdd() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
@@ -168,14 +164,14 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
 	}
+
 	/**
 	 * It is for test how the median is calculate (when the survey average sorted)
 	 * and if it is good test the final grade.
 	 */
 	@Test
 	void testMultiSurveysSortAndEven() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
@@ -192,7 +188,7 @@ class surveyScoreTest {
 		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(2);
 		excepted = (float) (3 + 3 + 3) / 3;
-		exceptedMeidan=(float) (exceptedMeidan+excepted)/2;
+		exceptedMeidan = (float) (exceptedMeidan + excepted) / 2;
 		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(3);
 		excepted = (float) (4 + 4 + 4) / 3;
@@ -200,10 +196,10 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
 	}
+
 	@Test
 	void testMultiSurveysUnortAndEven() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
 		surveyTable.add(dataBase.new survey(1, 4, 4, 4, 4));
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
@@ -223,7 +219,7 @@ class surveyScoreTest {
 		assertTrue(comperFloats(testAvg, excepted));
 		testAvg = MockSurveyScore.avgForEachRow.get(3);
 		excepted = (float) (3 + 3 + 3) / 3;
-		exceptedMeidan=(float) (exceptedMeidan+excepted)/2;
+		exceptedMeidan = (float) (exceptedMeidan + excepted) / 2;
 		assertTrue(comperFloats(testAvg, excepted));
 		assertTrue(comperFloats(MockSurveyScore.median, exceptedMeidan));
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, exceptedMeidan * 0 + 1));
@@ -231,8 +227,7 @@ class surveyScoreTest {
 
 	@Test
 	void testF1is0F2is1() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
 		MockSurveyScore.surveyScore("1", "A");
@@ -250,8 +245,7 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testV1orV2orV3Negative() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, -1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -265,21 +259,21 @@ class surveyScoreTest {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
-		surveyTable.set(0,dataBase.new survey(1, 1, 2, 3, -4));
+		surveyTable.set(0, dataBase.new survey(1, 1, 2, 3, -4));
 		try {
 			MockSurveyScore.surveyScore("1", "A");
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
 	}
+
 	/**
 	 * Test when get zero values in survey grades table. <br>
 	 * Grades should be integer from 1 to 5
 	 */
 	@Test
 	void testV1orV2orV3zero() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 0, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -293,21 +287,21 @@ class surveyScoreTest {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
-		surveyTable.set(0,dataBase.new survey(1, 1, 2, 3, 0));
+		surveyTable.set(0, dataBase.new survey(1, 1, 2, 3, 0));
 		try {
 			MockSurveyScore.surveyScore("1", "A");
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
 	}
+
 	/**
 	 * Test when get values greater then 5 in survey grades table. <br>
 	 * Grades should be integer from 1 to 5
 	 */
 	@Test
 	void testV1orV2orV3Greater5() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 8, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -321,31 +315,31 @@ class surveyScoreTest {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
-		surveyTable.set(0,dataBase.new survey(1, 1, 2, 3, 8));
+		surveyTable.set(0, dataBase.new survey(1, 1, 2, 3, 8));
 		try {
 			MockSurveyScore.surveyScore("1", "A");
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
 	}
+
 	@Test
 	public void testInValidID() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 8, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
 			MockSurveyScore.surveyScore("2", "A");
 			fail();
 		} catch (IllegalArgumentException e) {
-		}catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			fail(); // tried to get grade from empty array list.
 		}
 	}
+
 	@Test
 	public void testInValidType() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 8, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -354,18 +348,18 @@ class surveyScoreTest {
 		} catch (IllegalArgumentException e) {
 		}
 	}
+
 	@Test
 	public void testClosedConnection() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		dataBase.close();
 		try {
-		mockSurveyScore.surveyScore("1", "1");
-		assertTrue(dataBase.exception!=null);
-		assertTrue(dataBase.mockStatment==null);
-		}catch (ArrayIndexOutOfBoundsException e) {
-			assertTrue(dataBase.exception!=null);
-			assertTrue(dataBase.mockStatment==null);
+			mockSurveyScore.surveyScore("1", "1");
+			assertTrue(dataBase.exception != null);
+			assertTrue(dataBase.mockStatment == null);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			assertTrue(dataBase.exception != null);
+			assertTrue(dataBase.mockStatment == null);
 			fail(); // tried to get grade from empty array list.
 		}
 	}
@@ -374,8 +368,7 @@ class surveyScoreTest {
 
 	@Test
 	void testF1is1F2is0() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 0));
 		MockSurveyScore.surveyScore("1", "A");
@@ -389,8 +382,7 @@ class surveyScoreTest {
 
 	@Test
 	void testF1isNegativeF2isNot() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", -5, 1));
 		MockSurveyScore.surveyScore("1", "A");
@@ -404,8 +396,7 @@ class surveyScoreTest {
 
 	@Test
 	void testF1isNotNegativeF2is() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, -5));
 		MockSurveyScore.surveyScore("1", "A");
@@ -419,8 +410,7 @@ class surveyScoreTest {
 
 	@Test
 	void testF1F2AreNegative() {
-		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
-		System.out.println();
+
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", -1, -5));
 		MockSurveyScore.surveyScore("1", "A");
@@ -433,16 +423,18 @@ class surveyScoreTest {
 	}
 
 	/**
-	 * <p>This method compare two floats number using epsilon (very small number 0.0001).<br>
+	 * <p>
+	 * This method compare two floats number using epsilon (very small number
+	 * 0.0001).<br>
 	 * It is round the numbers by epsilon. <br>
 	 * </p>
-	 * sometimes the numbers are not equals but present the same amount, 
-	 * because of inaccuracy of java environment calculating.
-	 * @param f1 - first float variable 
-	 * @param f2 - second float variable 
-	 * @return 
-	 * true if they are equals <br>
-	 * false if  they are not equals 
+	 * sometimes the numbers are not equals but present the same amount, because of
+	 * inaccuracy of java environment calculating.
+	 * 
+	 * @param f1 - first float variable
+	 * @param f2 - second float variable
+	 * @return true if they are equals <br>
+	 *         false if they are not equals
 	 */
 	private boolean comperFloats(float f1, float f2) {
 		float epsilon = (float) 0.0001;
