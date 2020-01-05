@@ -275,6 +275,18 @@ class surveyScoreTest {
 		assertTrue(comperFloats(MockSurveyScore.finalGrade, excepted * -1 + -5));
 	}
 
+	/**
+	 * <p>This method compare two floats number using epsilon (very small number 0.0001).<br>
+	 * It is round the numbers by epsilon. <br>
+	 * </p>
+	 * sometimes the numbers are not equals but present the same amount, 
+	 * because of inaccuracy of java environment calculating.
+	 * @param f1 - first float variable 
+	 * @param f2 - second float variable 
+	 * @return 
+	 * true if they are equals <br>
+	 * false if  they are not equals 
+	 */
 	private boolean comperFloats(float f1, float f2) {
 		float epsilon = (float) 0.0001;
 		if (Math.abs(f1 - f2) < epsilon)
