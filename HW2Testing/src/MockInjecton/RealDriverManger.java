@@ -2,7 +2,12 @@ package MockInjecton;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * This class implements <b>DriverManagerService</b> and works like the real DriverManger.
+ * @author Ofek and Yonathan
+ *@see
+ *{@link DriverManagerService}
+ */
 public class RealDriverManger implements DriverManagerService {
 	
 	@Override

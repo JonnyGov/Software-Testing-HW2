@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class universalScoring {
-	//start added
+	//start added: constructor to injection and initialize services.
 	private static DriverManagerService driverManagerService;
 	
 	// the constructor injection
@@ -23,10 +23,10 @@ public class universalScoring {
 		
 	
 	}	
-	//finish added
+	//finish added.
 	
-	//public static Connection conn;
-	public static ConnectionService conn; // @@change
+	//public static Connection conn; // @@deleted
+	public static ConnectionService conn; // @@change from Connection to ConnectionService
 	
 	public static void main(String[] args)
 	{
@@ -37,6 +37,7 @@ public class universalScoring {
         
         try 
         {
+        	//@@change from driverManager to driverManagerService
         	conn = driverManagerService.getConnection("jdbc:mysql://localhost/sakila?serverTimezone=IST","root","Aa123456"); //@change
             System.out.println("SQL connection succeed"); 
             int x=surveyScore("111111111","A");
@@ -49,12 +50,23 @@ public class universalScoring {
             }
    	}
 	
+	/**
+	 * 
+	 * Injected function by StatmentService and ResultService <br>
+	 * and use of conn variable (ConnectionService) 
+	 * @param ID
+	 * @param surveyType
+	 * @return finalGrade
+	 * @see StatmentService
+	 * @see ConnectionService
+	 * @see ResultService
+	 */
 	public static int surveyScore(String ID, String surveyType)
 	{	float median=0;
 		float interval=0;
 		float factor=0;
-		//Statement stmt;
-		StatmentService stmt; // @@change
+		//Statement stmt; // @@deleted
+		StatmentService stmt; // @@change from Statement to StatmentService.
 		ArrayList<Float> grades=new ArrayList();
 		int count=0;
 		float min=5; 
@@ -62,9 +74,10 @@ public class universalScoring {
 		float finalGrade=0;
 		try 
 		{
-			stmt = conn.createStatement();
+			stmt = conn.createStatement(); 
+			//@@deleted:
 			//ResultSet rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE ID= \""+ ID +"\";");
-			// @@change
+			// @@change from ResultSet to ResultService:
 			ResultService rs = stmt.executeQuery("SELECT v1,v3,v4 FROM sakila.survey WHERE ID= \""+ ID +"\";");
 	 		while(rs.next())
 	 		{   
@@ -92,8 +105,9 @@ public class universalScoring {
 		try 
 		{
 			stmt = conn.createStatement();
+			//@@deleted:
 			//ResultSet rs = stmt.executeQuery("SELECT settings.f1,settings.f2 FROM sakila.settings  WHERE settings.type = \""+ surveyType +"\";");
-			// @@change
+			// @@change from ResultSet to ResultSet:
 			ResultService rs = stmt.executeQuery("SELECT settings.f1,settings.f2 FROM sakila.settings  WHERE settings.type = \""+ surveyType +"\";");
 	 		rs.next();
 	 		finalGrade=(float)rs.getInt(1)*median+interval/2+(float)rs.getInt(2);	

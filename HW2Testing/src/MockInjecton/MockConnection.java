@@ -7,10 +7,11 @@ import java.util.ArrayList;
 public class MockConnection implements ConnectionService{
 	
 	
-	/**<b>each entity of class implementing:</b>
-	 * <p> 
+	/**<p>each entity(see Also) of class implementing:</p> 
+	 * <p>
 	 * <b>rowInDatabase</b>- row in a table of DB , 
 	 * meaning holding more then one of those is a table.
+	 * </p>
 	 * @see
 	 * {@link settings} ,
 	 * {@link survey}

@@ -3,7 +3,12 @@ package MockInjecton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * This class implements <b>ResultService</b> and works like the real ResultSet.
+ * @author Ofek and Yonathan
+ *@see
+ *{@link ResultService}
+ */
 public class RealResult implements ResultService {
 	private ResultSet rs;
 	public RealResult(Statement stmt,String str) throws SQLException{
