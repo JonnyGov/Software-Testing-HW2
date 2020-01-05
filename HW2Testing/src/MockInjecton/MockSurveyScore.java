@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * a full on replacement for SurveyScore ,  giving the ability to test internal components 
- *
+ * <b>SurveyScore</b> function refactoring using the injected class <b>universalScoring</b>.<br>
+ * giving the ability to test internal components 
+ * @see #surveyScore(String, String)
+ * @see universalScoring
  */
 public class MockSurveyScore {
 	private static DriverManagerService driverManagerService;
@@ -52,6 +54,19 @@ public class MockSurveyScore {
 	public static ArrayList<Float> avgForEachRow=new ArrayList<Float>();
 	public static float finalGrade = 0;
 
+	/**
+	 * This function Refactored and save all variables for testing:
+	 * <li>median</li>
+	 * <li>interval</li>
+	 * <li>factor</li>
+	 * <li>count</li>
+	 * <li>min</li>
+	 * <li>max</li>
+	 * <li>avg</li>
+	 * <li>avgForEachRow</li>
+	 * <li>finalGrade</li>
+	 * @see universalScoring#surveyScore(String, String)
+	 */
 	public static int surveyScore(String ID, String surveyType) {
 		avgForEachRow.clear(); //@@added: clear for the next test.
 		 median = 0;
