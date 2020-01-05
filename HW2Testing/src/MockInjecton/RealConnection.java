@@ -12,10 +12,10 @@ import java.sql.Statement;
  */
 public class RealConnection implements ConnectionService{
 	Connection conn;
-	RealConnection(Connection conn) throws SQLException{
+	public RealConnection(Connection conn) throws SQLException{
 		this.conn=conn;
 	}
-	RealConnection() throws SQLException{
+	public RealConnection() {
 		conn=null;
 	}
 

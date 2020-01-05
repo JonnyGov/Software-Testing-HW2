@@ -1,6 +1,7 @@
 package MockInjecton;
 
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 
 /**
  * <p>
@@ -16,5 +17,5 @@ import java.sql.SQLException;
  * @see MockDriverConnection
  */
 public interface DriverManagerService {
-public ConnectionService getConnection(String str, String string, String string2) throws SQLException;
+public ConnectionService getConnection(String str, String string, String string2) throws SQLException,SQLTimeoutException;
 }

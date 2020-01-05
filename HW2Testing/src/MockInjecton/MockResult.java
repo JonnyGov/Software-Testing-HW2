@@ -8,20 +8,26 @@ public class MockResult implements ResultService{
 	private String where;
 	private int index=0;
 	private ArrayList <? extends rowInDatabase> table;
-	
+	public boolean isClosed=false;
+	public SQLException exception=null;
+	public MockStatment mockStatment=null;
 	/** Constructor 
-	 * @param table - the array list withch holds rows 
+	 * @param table - the array list which holds rows 
 	 * @param where - the key 
 	 */
-	public MockResult(ArrayList<? extends rowInDatabase> table, String where) {
+	public MockResult(ArrayList<? extends rowInDatabase> table, String where,MockStatment mockStatment) {
 		this.table=table;
-		this.where=where;		
+		this.where=where;
+		this.mockStatment=mockStatment;
 	}
 	/**  Going throw the rows of the table 
+	 * @throws SQLException 
 	 *
 	 */
 	@Override
-	public boolean next() {
+	public boolean next() throws SQLException {
+		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
+		if (isClosed) throw exception=new SQLException("mock result is closed.");
 		try {
 		table.get(index++);
 		return true;
@@ -34,13 +40,15 @@ public class MockResult implements ResultService{
 	 */
 	@Override
 	public float getFloat(int i) throws SQLException {
+		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
+		if (isClosed) throw  exception=new SQLException("mock result is closed.");
 		String toReturn=table.get(index-1).getRow(i);
 		if (toReturn==null) throw new SQLException ();
 		else return Float.valueOf(toReturn).floatValue();
 	}
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
+		isClosed=true;
 		
 	}
 	/**getting the float argument from the table
@@ -48,6 +56,8 @@ public class MockResult implements ResultService{
 	 */
 	@Override
 	public int getInt(int i) throws SQLException {
+		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
+		if (isClosed) throw  exception=new SQLException("mock result is closed.");
 		String toReturn=table.get(index-1).getRow(i);
 		if (toReturn==null) throw new SQLException ();
 		else return Integer.valueOf(toReturn).intValue();

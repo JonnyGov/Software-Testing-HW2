@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,22 +47,14 @@ class surveyScoreTest {
 	public static void initialize() {
 		surveyTable = new ArrayList<survey>();
 		settingsTable = new ArrayList<settings>();
-		dataBase = new MockConnection(surveyTable, settingsTable);
-		sql = new MockDriverConnection(dataBase);
-
+		
 		// this is for use without mock survey score:
 		/*
 		 * try { testClass=new universalScoring(sql); } catch (SQLException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
 
-		// this is for use with mock survey score:
-		try {
-			MockSurveyScore mockSurveyScore = new MockSurveyScore(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 	}
 
@@ -74,6 +67,22 @@ class surveyScoreTest {
 	public void cleanTables() {
 		surveyTable.clear();
 		settingsTable.clear();
+		dataBase = new MockConnection(surveyTable, settingsTable, sql);
+		sql = new MockDriverConnection(dataBase, false);
+		// this is for use with mock survey score:
+				try {
+					 mockSurveyScore = new MockSurveyScore(sql);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("--------------Testing...-----------------");
+				System.out.println();
+	}
+	@AfterEach
+	public void endTest() {
+		System.out.println("--------------end-----------------");
+		System.out.println();
 	}
 
 	// ofek
@@ -84,6 +93,8 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testTwoDiffrentID() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		surveyTable.add(dataBase.new survey(2, 3, 1, 1, 2));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
@@ -108,6 +119,8 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testMultiSurveysUnSort() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
@@ -134,6 +147,8 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testMultiSurveysSort() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, 1, 1, 1, 1));
 		surveyTable.add(dataBase.new survey(1, 2, 2, 2, 2));
 		surveyTable.add(dataBase.new survey(1, 3, 3, 3, 3));
@@ -156,6 +171,8 @@ class surveyScoreTest {
 
 	@Test
 	void testF1is0F2is1() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, 1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 0, 1));
 		MockSurveyScore.surveyScore("1", "A");
@@ -173,6 +190,8 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testV1orV2orV3Negative() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, -1, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -199,6 +218,8 @@ class surveyScoreTest {
 	 */
 	@Test
 	void testV1orV2orV3zero() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
 		surveyTable.add(dataBase.new survey(1, 0, 2, 3, 4));
 		settingsTable.add(dataBase.new settings("A", 1, 1));
 		try {
@@ -219,7 +240,21 @@ class surveyScoreTest {
 		} catch (IllegalArgumentException e) {
 		}
 	}
-	
+	@Test
+	public void testClosedConnection() {
+		System.out.println((Thread.currentThread().getStackTrace())[1].getMethodName());
+		System.out.println();
+		dataBase.close();
+		try {
+		mockSurveyScore.surveyScore("1", "1");
+		assertTrue(dataBase.exception!=null);
+		assertTrue(dataBase.mockStatment==null);
+		}catch (ArrayIndexOutOfBoundsException e) {
+			assertTrue(dataBase.exception!=null);
+			assertTrue(dataBase.mockStatment==null);
+			fail(); // tried to get grade from empty array list.
+		}
+	}
 
 	// yonathan
 

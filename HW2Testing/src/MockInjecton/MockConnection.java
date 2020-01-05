@@ -115,22 +115,36 @@ public class MockConnection implements ConnectionService{
 	
 	public  ArrayList <survey> surveyTable=null;
 	public  ArrayList <settings> settingsTable=null;
+	public boolean isClosed=false;
+	public SQLException exception=null;
+	public MockDriverConnection mockDriverConnection=null;
+	public MockStatment mockStatment=null;
 	
 	/** Constructor - making our fake DB by receiving ready tables of settings and survey = 
 	 * @param surveyTable
 	 * @param settingsTable
 	 */
-	public MockConnection(ArrayList<survey> surveyTable, ArrayList<settings> settingsTable) {
+	public MockConnection(ArrayList<survey> surveyTable, ArrayList<settings> settingsTable,MockDriverConnection mockDriverConnection) {
 		this.surveyTable = surveyTable;
 		this.settingsTable = settingsTable;
+		this.mockDriverConnection=mockDriverConnection;
 	}
-	/** creates a StatmentService to work with our fake DB
-	 * 
-	 *
+	/**
+	 * This method close the mock connection.
+	 */
+	public void close() {
+		isClosed=true;
+	}
+	/**
+	 *creates a StatmentService to work with our fake DB.
+	 *@throws SQLException if one of tables null or this mockConnection is closed 
+	 *by isClosed boolean variable.
 	 */
 	@Override
 	public StatmentService createStatement() throws SQLException {
-		return new MockStatment(this);
+		if (mockDriverConnection.exception!=null) throw exception=new SQLException("can't get data.");
+		if (isClosed) throw exception=new SQLException("this mockConnection is closed");
+		return mockStatment=new MockStatment(this);
 	}
 
 }
