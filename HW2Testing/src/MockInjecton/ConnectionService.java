@@ -8,6 +8,8 @@ import java.sql.Statement;
  * <br>
  * It is allow to put fake or real Connection class in the injection code . 
  * @author Ofek and Yonathan
+ * @see RealConnection
+ * @see MockConnection
  */
 public interface ConnectionService {
 public StatmentService createStatement() throws SQLException;

@@ -7,6 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
+/**
+ * This is the source before injection.
+ * @author unknown
+ *@see MockInjecton.universalScoring
+ */
 public class universalScoring {
 	public static Connection conn;
 

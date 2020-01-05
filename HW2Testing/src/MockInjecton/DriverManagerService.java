@@ -12,6 +12,8 @@ import java.sql.SQLException;
  * designed to  working with DB or a similar entity.
  * </p>
  * @author Ofek and Yonathan
+ * @see RealDriverManger
+ * @see MockDriverConnection
  */
 public interface DriverManagerService {
 public ConnectionService getConnection(String str, String string, String string2) throws SQLException;

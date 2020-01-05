@@ -6,6 +6,8 @@ import java.sql.SQLException;
  * <br>
  * It is allow to put fake or real ResultSet class in the injection code . 
  * @author Ofek and Yonathan
+ * @see RealResult
+ * @see MockResult
  */
 public interface ResultService {
 	public boolean next() throws SQLException;
