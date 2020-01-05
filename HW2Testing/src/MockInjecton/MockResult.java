@@ -28,11 +28,18 @@ public class MockResult implements ResultService{
 	public boolean next() throws SQLException {
 		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
 		if (isClosed) throw exception=new SQLException("mock result is closed.");
+		
 		try {
 		table.get(index++);
 		return true;
 		}catch (IndexOutOfBoundsException e) {
-			return false;
+			try {
+				table.get(index-2);
+				return false;
+			}catch (IndexOutOfBoundsException e2) {
+				throw exception=new SQLException("Illegal operation on empty result set.");
+			}
+			
 		}
 	}
 	/** getting the float argument from the table
@@ -42,12 +49,19 @@ public class MockResult implements ResultService{
 	public float getFloat(int i) throws SQLException {
 		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
 		if (isClosed) throw  exception=new SQLException("mock result is closed.");
+		try {
+			table.get(index-1);
+		}catch (IndexOutOfBoundsException e) {
+			throw exception=new SQLException("Illegal operation on empty result set.");
+		}
 		String toReturn=table.get(index-1).getRow(i);
 		if (toReturn==null) throw new SQLException ();
 		else return Float.valueOf(toReturn).floatValue();
 	}
 	@Override
-	public void close() {
+	public void close() throws SQLException{
+		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
+		if (isClosed) throw  exception=new SQLException("mock result is closed.");
 		isClosed=true;
 		
 	}
@@ -58,6 +72,11 @@ public class MockResult implements ResultService{
 	public int getInt(int i) throws SQLException {
 		if (mockStatment.exception!=null) throw exception=new SQLException("can't get data.");
 		if (isClosed) throw  exception=new SQLException("mock result is closed.");
+		try {
+			table.get(index-1);
+		}catch (IndexOutOfBoundsException e) {
+			throw exception=new SQLException("Illegal operation on empty result set.");
+		}
 		String toReturn=table.get(index-1).getRow(i);
 		if (toReturn==null) throw new SQLException ();
 		else return Integer.valueOf(toReturn).intValue();
