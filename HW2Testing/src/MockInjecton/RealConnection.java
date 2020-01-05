@@ -2,7 +2,7 @@ package MockInjecton;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 /**
  * This class implements <b>ConnectionService</b> and works like the real Connection.

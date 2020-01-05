@@ -1,12 +1,11 @@
 package testSuit;
 
-import static org.junit.Assert.assertFalse;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import MockInjecton.MockConnection;
 import MockInjecton.MockDriverConnection;
 import MockInjecton.MockSurveyScore;
-import MockInjecton.universalScoring;
-import MockInjecton.MockConnection.rowInDatabase;
 import MockInjecton.MockConnection.settings;
 import MockInjecton.MockConnection.survey;
 
@@ -35,8 +32,7 @@ class surveyScoreTest {
 	private static ArrayList<settings> settingsTable;
 	private static MockConnection dataBase;
 	private static MockDriverConnection sql;
-	private static universalScoring testClass;
-	private static MockSurveyScore mockSurveyScore;
+	//private static universalScoring testClass;
 
 	/**
 	 * Before doing test: initialize and set unreal database and sql. <br>
@@ -50,7 +46,7 @@ class surveyScoreTest {
 
 		// this is for use without mock survey score:
 		/*
-		 * try { testClass=new universalScoring(sql); } catch (SQLException e) { // TODO
+		 * try { testClass=new universalScoring(sql); } catch (SQLException e) { 
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
 
@@ -69,22 +65,12 @@ class surveyScoreTest {
 		sql = new MockDriverConnection(dataBase, false);
 		// this is for use with mock survey score:
 		try {
-			mockSurveyScore = new MockSurveyScore(sql);
+			new MockSurveyScore(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("--------------Testing...-----------------");
-
 	}
-
-	@AfterEach
-	public void endTest() {
-		System.out.println("--------------end-----------------");
-
-	}
-
-	// ofek
 
 	/**
 	 * Insert in database for table survey two different id. Calculate final grade
@@ -354,17 +340,15 @@ class surveyScoreTest {
 
 		dataBase.close();
 		try {
-			mockSurveyScore.surveyScore("1", "1");
-			assertTrue(dataBase.exception != null);
-			assertTrue(dataBase.mockStatment == null);
+			MockSurveyScore.surveyScore("1", "1");
+			fail();
 		} catch (ArrayIndexOutOfBoundsException e) {
+			fail(); // tried to get grade from empty array list.
+		}catch (Exception e) {
 			assertTrue(dataBase.exception != null);
 			assertTrue(dataBase.mockStatment == null);
-			fail(); // tried to get grade from empty array list.
 		}
 	}
-
-	// yonathan
 
 	@Test
 	void testF1is1F2is0() {

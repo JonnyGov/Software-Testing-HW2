@@ -14,9 +14,9 @@ public class MockSurveyScore {
 
 	public MockSurveyScore(DriverManagerService driverManagerService) throws SQLException {
 		if (driverManagerService == null)
-			this.driverManagerService = new RealDriverManger();
+			driverManagerService = new RealDriverManger();
 		else {
-			this.driverManagerService = driverManagerService;
+			MockSurveyScore.driverManagerService = driverManagerService;
 			conn = driverManagerService.getConnection(null, null, null);
 
 		}

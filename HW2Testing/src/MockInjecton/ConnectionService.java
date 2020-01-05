@@ -1,7 +1,7 @@
 package MockInjecton;
 
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 /**
  * This interface replace the Connection class. 

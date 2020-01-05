@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import MockInjecton.MockConnection.rowInDatabase;
 
 public class MockResult implements ResultService{
-	private String where;
 	private int index=0;
 	private ArrayList <? extends rowInDatabase> table;
 	public boolean isClosed=false;
@@ -17,7 +16,6 @@ public class MockResult implements ResultService{
 	 */
 	public MockResult(ArrayList<? extends rowInDatabase> table, String where,MockStatment mockStatment) {
 		this.table=table;
-		this.where=where;
 		this.mockStatment=mockStatment;
 	}
 	/**  Going throw the rows of the table 
